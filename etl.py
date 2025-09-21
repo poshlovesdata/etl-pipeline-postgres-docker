@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # load environment variables
 load_dotenv()
 
-def extract_api_data()-> pd.DataFrame:
+def extract_api_data() -> pd.DataFrame:
     # get api key from .env
     API_KEY = os.getenv('COIN_GECKO_API_KEY')
     
@@ -30,7 +30,23 @@ def extract_api_data()-> pd.DataFrame:
     return df
 
 
+def transform_data(df: pd.DataFrame) -> pd.DataFrame:
+    # rename columns
+    df.rename(columns={'price_change_percentage_1h_in_currency': 'price_change_pct_1h'}, inplace=True)
+    
+    # drop columns
+    df.drop(['roi', 'roi.times', 'roi.currency', 'roi.percentage', 'image'], axis=1, inplace=True)
+    
+    # convert columns to appropriate type
+    date_columns = ['last_updated', 'atl_date', 'ath_date']
+    # df['last_updated'] = pd.to_datetime(df['last_updated'], errors='coerce') # type: ignore
+    for col in date_columns:
+        df[col] = pd.to_datetime(df[col], errors='coerce') # type: ignore
+        
+    return df
+
 
 
 if __name__ == "__main__":
-    extract_api_data()
+    extract_data = extract_api_data()
+    tranform_data = transform_data(extract_data)
