@@ -1,3 +1,4 @@
 requests
 pandas
 load-dotenv
+psycopg2-binary
