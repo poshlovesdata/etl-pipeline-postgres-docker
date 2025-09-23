@@ -1,7 +1,7 @@
 ETL Pipeline with Docker and PostgreSQL
 
 ## Pipeline Architecture
-![Alt text](/postgres-docker-etl-architecture.png)
+![Pipeline Architecture](/postgres-docker-etl-architecture.png)
 
 ## Overview:
 This project demonstrates a simple ETL (Extract -> Transform -> Load) pipeline using Docker.
@@ -30,7 +30,6 @@ etl-pipeline-postgres-docker/
 │── README.md            # Project documentation
 ```
 
----
 ## Prerequisites
 - Docker
 - Python 3.10+ (for local testing)
@@ -62,7 +61,8 @@ Test database with SQL queries
 SELECT * FROM coin_price;
 ```
 
-Concepts covered:
+---
+## Concepts covered:
 1. API data extraction
 2. Static typing in Python
 3. Git/Github for version control
@@ -71,19 +71,3 @@ Concepts covered:
 6. Data transformation with pandas
 7. Bash Scripting for automation
 8. Docker basics: Dockerfile, containers, networks
-
-API data extraction (CoinGecko)
-
-Static typing in Python
-
-Git & GitHub for version control
-
-Environment variables for secure credentials
-
-Python functions and modular coding
-
-Data transformation with pandas
-
-Bash scripting for automation
-
-Docker basics: Dockerfile, containers, networks
