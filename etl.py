@@ -57,6 +57,7 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def load_data_to_postgres(df: pd.DataFrame) -> None:
+    # connection string for postgres
     conn_string = f'postgresql+psycopg2://{db_user}:{db_pass}@{db_host}/{db_name}'
 
     try:
