@@ -2,17 +2,19 @@ import os
 import requests
 import pandas as pd
 from dotenv import load_dotenv
-import psycopg2
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+
 
 # load environment variables
 load_dotenv()
 
 # get api key from .env
-API_KEY = os.getenv('COIN_GECKO_API_KEY')
-POSTGRES_USER = os.getenv('POSTGRES_USER')
-POSTGRES_DB = os.getenv('POSTGRES_DB')
-POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
-
+api_key = os.getenv('COIN_GECKO_API_KEY')
+db_user = os.getenv("POSTGRES_USER")
+db_pass = os.getenv("POSTGRES_PASSWORD")
+db_name = os.getenv("POSTGRES_DB")
+db_host = os.getenv("DB_HOST")
 
 def extract_api_data() -> pd.DataFrame:
     
@@ -21,7 +23,7 @@ def extract_api_data() -> pd.DataFrame:
     # api parameters
     querystring = {"vs_currency":"usd","category":"layer-1","price_change_percentage":"1h","per_page":"30"}
 
-    headers = {"x-cg-demo-api-key": f"{API_KEY}\t"}
+    headers = {"x-cg-demo-api-key": f"{api_key}\t"}
 
     response = requests.get(url, headers=headers, params=querystring)
 
@@ -54,22 +56,20 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
         
     return df
 
-def load_data_to_postgres():
-    try:
-        conn = psycopg2.connect(
-            database=POSTGRES_DB,
-            user=POSTGRES_USER,
-            password=POSTGRES_PASSWORD,
-            host="localhost",  
-            port=5432    # default is 5432
-        )
-        print("Connection to PostgreSQL successful!")
+def load_data_to_postgres(df: pd.DataFrame) -> None:
+    conn_string = f'postgresql+psycopg2://{db_user}:{db_pass}@{db_host}/{db_name}'
 
-    except psycopg2.Error as e:
+    try:
+        print("Connecting to DB...")
+        engine = create_engine(conn_string)
+        with engine.connect() as conn:
+            df.to_sql('coin_price', con=conn, if_exists='replace', index=False)
+        print("Connection to PostgreSQL successful!")
+    except SQLAlchemyError as e:
         print(f"Error connecting to PostgreSQL: {e}")
 
 
 if __name__ == "__main__":
     extract_data = extract_api_data()
     tranform_data = transform_data(extract_data)
-    load_data_to_postgres()
+    load_data_to_postgres(tranform_data)

@@ -8,34 +8,30 @@ CDE assignment for Docker with ETL Pipeline and Postgres DB
 6. Pandas
 
 for netwok
-
-Create a user-defined network:
+1. Create a network:
 
 ```bash
-docker network create etl-network
+docker network create etl-postgres-network
 ```
 
-Start Postgres on that network:
-
+2. Build etl image
 ```bash
-docker run --name etl-postgres \
-  --network etl-network \
-  -e POSTGRES_USER=etl_user \
-  -e POSTGRES_PASSWORD=etl_pass \
-  -e POSTGRES_DB=etl_db \
+docker build -t etl-job .
+```
+
+3. Start Postgres using the .env file
+```bash
+docker run --name postgres-db \
+  --network etl-postgres-network \
+  --env-file .env \
   -d postgres:15
 ```
 
-Rebuild & run your ETL container on the same network:
-
+4. Run the ETL container using the same .env file
 ```bash
-docker run --network etl-network etl-image
-```
-
-Store connection details in environment variables (e.g., .env file).
-
-Mount your .env when running:
-
-```bash
-docker run --network etl-network --env-file .env etl-image
+docker run --rm \
+  --name etl-job-container \
+  --network etl-postgres-network \
+  --env-file .env \
+  etl-job
 ```
