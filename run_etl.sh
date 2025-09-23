@@ -18,9 +18,6 @@ if [ -f "$output_file" ]; then
 else
     echo "Starting scripts..."
 
-    # create .env, if exists clear content
-    # > "$output_file"
-
     # loop through .env keys to collect values from user
     for item in "${variable_name[@]}"; do
         read -p "Enter env variable for $item: " input
@@ -42,6 +39,7 @@ else
 
     echo "environment variables saved to .env file."
 fi
+
 # export .env 
 set -a
 source .env
@@ -94,5 +92,6 @@ echo "run sql queries in your postgres container. \q to leave container"
 # docker exec -it "$DB_HOST" psql -U "$POSTGRES_USER"
 echo "$seperator"
 
-echo "run 'select * from coin_price' to get started"
+echo "run 'select * from coin_price;' to get started"
+echo "$seperator"
 docker exec -it "$DB_HOST" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"
