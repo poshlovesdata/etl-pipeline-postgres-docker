@@ -6,17 +6,17 @@
 ## Overview:
 This project demonstrates a simple ETL (Extract -> Transform -> Load) pipeline using Docker.
 
-ETL Container - runs a Python script (etl.py) that:
+- ETL Container - runs a Python script (etl.py) that:
 
-Extracts crypto price data from CoinGecko API
+- Extracts crypto price data from CoinGecko API
 
-Transforms the data using pandas
+- Transforms the data using pandas
 
-Loads the cleaned data into PostgreSQL using SQLAlchemy
+- Loads the cleaned data into PostgreSQL using SQLAlchemy
 
-Postgres Container - runs PostgreSQL as the database target.
+- Postgres Container - runs PostgreSQL as the database target.
 
-The containers communicate over a Docker network.
+- The containers communicate over a Docker network.
 
 ---
 
