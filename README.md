@@ -1,4 +1,4 @@
-ETL Pipeline with Docker and PostgreSQL
+# ETL Pipeline with Docker and PostgreSQL
 
 ## Pipeline Architecture
 ![Pipeline Architecture](/postgres-docker-etl-architecture.png)
