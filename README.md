@@ -36,7 +36,10 @@ etl-pipeline-postgres-docker/
 - Bash shell (Linux/macOS, or Git Bash on Windows)
 
 ---
-
+## Clone the repo
+```bash
+git clone https://github.com/poshlovesdata/etl-pipeline-postgres-docker.git
+```
 ## Running the Project
 1. Make `run_etl.sh` script executable
 ```bash
@@ -47,6 +50,7 @@ chmod +x run_etl.sh
 ./run_etl.sh
 ```
 3. Set up environment variables
+
 On first run, you’ll be prompted to populate `.env`:
 ```
 POSTGRES_USER=
@@ -54,8 +58,10 @@ POSTGRES_PASSWORD=
 POSTGRES_DB=
 ```
 
-4. Verify database 
+4. Verify database
+
 After the ETL completes, it connects to the database
+
 Test database with SQL queries
 ```sql
 SELECT * FROM coin_price;
