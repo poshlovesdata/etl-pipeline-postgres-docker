@@ -1,0 +1,24 @@
+services:
+  etl:
+    build: .
+    networks:
+      - etl_postgres_network
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    volumes:
+      - ./data:/data
+      - ./script:/app/script
+
+  postgres_db:
+    image: postgres:15
+    env_file: ".env"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      retries: 5
+    networks:
+      - etl_postgres_network
+networks:
+  etl_postgres_network:
+    driver: bridge
