@@ -52,6 +52,10 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     for col in date_columns:
         df[col] = pd.to_datetime(df[col], errors='coerce') # type: ignore
     print('Transformation Completed....')
+    
+    os.makedirs('../data', exist_ok=True)
+    df.to_csv('/data/data.csv')
+    print('Saved transformed data to CSV....')
     print(df.head())
         
     return df
