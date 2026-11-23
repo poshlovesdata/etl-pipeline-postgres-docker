@@ -26,12 +26,6 @@ docker run --name etl-postgres \
   -d postgres:15
 ```
 
-Rebuild & run your ETL container on the same network:
-
-```bash
-docker run --network etl-network etl-image
-```
-
 Store connection details in environment variables (e.g., .env file).
 
 Mount your .env when running:
